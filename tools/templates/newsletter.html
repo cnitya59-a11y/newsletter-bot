@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  /* ── Page setup ───────────────────────────────── */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  @page cover {
+    margin: 0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: #1F2937;
+    background: #FFFFFF;
+  }
+
+  /* ── Utilities ────────────────────────────────── */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+  .page:last-child { page-break-after: avoid; }
+
+  .accent      { color: #4F46E5; }
+  .muted       { color: #6B7280; }
+  .small       { font-size: 10px; }
+  .caps        { text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* ── Cover page ───────────────────────────────── */
+  .cover {
+    display: block;
+    background: #0F0E17;
+  }
+  .cover-hero {
+    width: 100%;
+    height: 148mm;
+    object-fit: cover;
+    display: block;
+  }
+  .cover-hero-placeholder {
+    width: 100%;
+    height: 148mm;
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #0891B2 100%);
+  }
+  .cover-body {
+    padding: 14mm 16mm 16mm;
+    background: #0F0E17;
+  }
+  .cover-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #818CF8;
+    margin-bottom: 8mm;
+  }
+  .cover-title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #F9FAFB;
+    margin-bottom: 5mm;
+  }
+  .cover-subtitle {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #9CA3AF;
+    margin-bottom: 10mm;
+    max-width: 150mm;
+  }
+  .cover-meta {
+    font-size: 11px;
+    color: #6B7280;
+    letter-spacing: 0.05em;
+  }
+  .cover-accent-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 50%, #0891B2 100%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  /* ── Executive summary page ───────────────────── */
+  .exec-page {
+    padding: 18mm 18mm 14mm;
+    background: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4F46E5;
+    margin-bottom: 6mm;
+  }
+  .exec-summary-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #111827;
+    max-width: 165mm;
+    margin-bottom: 14mm;
+  }
+  .big-pull-quote {
+    border-left: 5px solid #4F46E5;
+    padding: 6mm 10mm;
+    background: #EEF2FF;
+    border-radius: 0 8px 8px 0;
+  }
+  .big-pull-quote p {
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #312E81;
+  }
+
+  /* ── Content section pages ────────────────────── */
+  .section-page {
+    padding: 0;
+  }
+  .section-image {
+    width: 100%;
+    height: 110mm;
+    object-fit: cover;
+    display: block;
+  }
+  .section-image-placeholder {
+    width: 100%;
+    height: 110mm;
+    background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+  }
+  .section-content {
+    padding: 10mm 16mm 12mm;
+  }
+  .section-number {
+    font-size: 10px;
+    font-weight: 700;
+    color: #4F46E5;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 3mm;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 5mm;
+    line-height: 1.2;
+  }
+  .section-body {
+    font-size: 12px;
+    line-height: 1.75;
+    color: #374151;
+    margin-bottom: 7mm;
+    column-count: 2;
+    column-gap: 8mm;
+  }
+  .section-pull {
+    border-top: 2px solid #E5E7EB;
+    padding-top: 5mm;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 600;
+    color: #4F46E5;
+    line-height: 1.5;
+  }
+  .image-caption {
+    font-size: 9px;
+    color: #9CA3AF;
+    padding: 2mm 16mm;
+    background: #F9FAFB;
+    border-top: 1px solid #F3F4F6;
+  }
+
+  /* ── Charts page ──────────────────────────────── */
+  .charts-page {
+    padding: 16mm 14mm;
+  }
+  .charts-page-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 10mm;
+  }
+  .chart-block {
+    margin-bottom: 10mm;
+  }
+  .chart-img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+  }
+
+  /* ── Sources page ─────────────────────────────── */
+  .sources-page {
+    padding: 18mm 18mm;
+  }
+  .sources-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 8mm;
+    color: #111827;
+  }
+  .sources-list {
+    list-style: none;
+  }
+  .sources-list li {
+    font-size: 11px;
+    line-height: 1.6;
+    color: #4F46E5;
+    padding: 2.5mm 0;
+    border-bottom: 1px solid #F3F4F6;
+    word-break: break-all;
+  }
+  .footer-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 5mm 16mm;
+    background: #F9FAFB;
+    border-top: 1px solid #E5E7EB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-bar span {
+    font-size: 9px;
+    color: #9CA3AF;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── PAGE 1: COVER ───────────────────────────────── -->
+<div class="page cover">
+  {% if image_uris and image_uris[0] %}
+    <img class="cover-hero" src="{{ image_uris[0] }}" alt="Cover image">
+  {% else %}
+    <div class="cover-hero-placeholder"></div>
+  {% endif %}
+  <div class="cover-body">
+    <div class="cover-label">Newsletter &nbsp;·&nbsp; {{ date }}</div>
+    <h1 class="cover-title">{{ copy.title }}</h1>
+    <p class="cover-subtitle">{{ copy.subtitle }}</p>
+    <p class="cover-meta caps muted">{{ topic }}</p>
+  </div>
+  <div class="cover-accent-bar"></div>
+</div>
+
+<!-- ── PAGE 2: EXECUTIVE SUMMARY ──────────────────── -->
+<div class="page exec-page">
+  <div class="section-label">Executive Summary</div>
+  <p class="exec-summary-text">{{ copy.executive_summary }}</p>
+  {% if copy.sections %}
+  <div class="big-pull-quote">
+    <p>"{{ copy.sections[0].pull_quote }}"</p>
+  </div>
+  {% endif %}
+  <div class="footer-bar">
+    <span>{{ copy.title }}</span>
+    <span>{{ date }}</span>
+  </div>
+</div>
+
+<!-- ── PAGES 3–6: CONTENT SECTIONS ────────────────── -->
+{% for section in copy.sections %}
+<div class="page section-page">
+  {% set img_index = loop.index %}
+  {% if image_uris and image_uris|length > img_index %}
+    <img class="section-image" src="{{ image_uris[img_index] }}" alt="{{ section.title }}">
+  {% else %}
+    <div class="section-image-placeholder"></div>
+  {% endif %}
+  {% if copy.image_captions and copy.image_captions|length > img_index %}
+    <div class="image-caption">{{ copy.image_captions[img_index] }}</div>
+  {% endif %}
+  <div class="section-content">
+    <div class="section-number">{{ "%02d"|format(loop.index) }} of {{ copy.sections|length }}</div>
+    <h2 class="section-title">{{ section.title }}</h2>
+    <div class="section-body">{{ section.body }}</div>
+    <div class="section-pull">"{{ section.pull_quote }}"</div>
+  </div>
+  <div class="footer-bar">
+    <span>{{ copy.title }}</span>
+    <span>{{ date }}</span>
+  </div>
+</div>
+{% endfor %}
+
+<!-- ── CHARTS PAGE ─────────────────────────────────── -->
+{% if has_charts %}
+<div class="page charts-page">
+  <div class="section-label">Data &amp; Visualizations</div>
+  <h2 class="charts-page-title">The Numbers Behind the Story</h2>
+  {% for chart_uri in chart_uris %}
+  <div class="chart-block">
+    <img class="chart-img" src="{{ chart_uri }}" alt="Chart {{ loop.index }}">
+  </div>
+  {% endfor %}
+  <div class="footer-bar">
+    <span>{{ copy.title }}</span>
+    <span>{{ date }}</span>
+  </div>
+</div>
+{% endif %}
+
+<!-- ── SOURCES PAGE ────────────────────────────────── -->
+<div class="page sources-page">
+  <div class="section-label">Sources &amp; References</div>
+  <h2 class="sources-title">Where This Came From</h2>
+  {% if sources %}
+  <ul class="sources-list">
+    {% for source in sources %}
+    <li>{{ source }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted small">Sources available upon request.</p>
+  {% endif %}
+  <div style="margin-top: 16mm; padding-top: 6mm; border-top: 2px solid #4F46E5;">
+    <p class="small muted">{{ copy.closing }}</p>
+  </div>
+  <div class="footer-bar">
+    <span>{{ copy.title }}</span>
+    <span>{{ date }}</span>
+  </div>
+</div>
+
+</body>
+</html>

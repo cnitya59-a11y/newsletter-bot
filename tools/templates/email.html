@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{{ copy.title }}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#F3F4F6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+
+<!-- Email wrapper -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F3F4F6;">
+<tr><td align="center" style="padding:24px 16px;">
+
+  <!-- Main container -->
+  <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
+
+    <!-- ── HEADER BAR ─────────────────────────────── -->
+    <tr>
+      <td style="background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);border-radius:12px 12px 0 0;padding:20px 32px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="color:#C7D2FE;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;">
+              Newsletter
+            </td>
+            <td align="right" style="color:#818CF8;font-size:11px;">
+              {{ copy.title[:40] }}{% if copy.title|length > 40 %}…{% endif %}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- ── HERO IMAGE ──────────────────────────────── -->
+    {% if image_cids and image_cids[0] %}
+    <tr>
+      <td style="padding:0;line-height:0;">
+        <img src="cid:{{ image_cids[0] }}" width="600" alt="{{ topic }}"
+             style="width:100%;max-width:600px;display:block;border:0;">
+      </td>
+    </tr>
+    {% endif %}
+
+    <!-- ── TITLE BLOCK ─────────────────────────────── -->
+    <tr>
+      <td style="background:#FFFFFF;padding:36px 36px 24px;">
+        <p style="margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4F46E5;">
+          {{ topic }}
+        </p>
+        <h1 style="margin:0 0 12px;font-size:28px;font-weight:800;line-height:1.2;color:#111827;">
+          {{ copy.title }}
+        </h1>
+        <p style="margin:0 0 20px;font-size:16px;line-height:1.5;color:#6B7280;">
+          {{ copy.subtitle }}
+        </p>
+        <p style="margin:0;font-size:14px;color:#374151;">
+          Hi {{name}},
+        </p>
+      </td>
+    </tr>
+
+    <!-- ── EXECUTIVE SUMMARY ───────────────────────── -->
+    <tr>
+      <td style="background:#FFFFFF;padding:0 36px 28px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="background:#EEF2FF;border-left:4px solid #4F46E5;border-radius:0 8px 8px 0;padding:16px 20px;">
+              <p style="margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4F46E5;">
+                Executive Summary
+              </p>
+              <p style="margin:0;font-size:14px;line-height:1.7;color:#1F2937;">
+                {{ copy.executive_summary }}
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- ── DIVIDER ──────────────────────────────────── -->
+    <tr><td style="background:#FFFFFF;padding:0 36px;"><div style="height:1px;background:#E5E7EB;"></div></td></tr>
+
+    <!-- ── CONTENT SECTIONS ────────────────────────── -->
+    {% for section in copy.sections %}
+
+    <!-- Section image -->
+    {% set img_index = loop.index %}
+    {% if image_cids and image_cids|length > img_index %}
+    <tr>
+      <td style="background:#FFFFFF;padding:28px 0 0;">
+        <img src="cid:{{ image_cids[img_index] }}" width="600" alt="{{ section.title }}"
+             style="width:100%;max-width:600px;display:block;border:0;">
+      </td>
+    </tr>
+    {% endif %}
+
+    <!-- Section content -->
+    <tr>
+      <td style="background:#FFFFFF;padding:20px 36px 28px;">
+        <p style="margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4F46E5;">
+          {{ "%02d"|format(loop.index) }}
+        </p>
+        <h2 style="margin:0 0 14px;font-size:20px;font-weight:800;color:#111827;line-height:1.25;">
+          {{ section.title }}
+        </h2>
+        <p style="margin:0 0 18px;font-size:14px;line-height:1.8;color:#374151;">
+          {{ section.body }}
+        </p>
+        <!-- Pull quote -->
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="border-top:2px solid #E5E7EB;padding-top:14px;">
+              <p style="margin:0;font-size:14px;font-style:italic;font-weight:600;color:#4F46E5;line-height:1.5;">
+                "{{ section.pull_quote }}"
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    {% if not loop.last %}
+    <tr><td style="background:#FFFFFF;padding:0 36px;"><div style="height:1px;background:#E5E7EB;"></div></td></tr>
+    {% endif %}
+
+    {% endfor %}
+
+    <!-- ── DATA & CHARTS ────────────────────────────── -->
+    {% if has_charts %}
+    <tr>
+      <td style="background:#FAFAFA;padding:28px 36px;">
+        <p style="margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4F46E5;">
+          By The Numbers
+        </p>
+        <h2 style="margin:0 0 20px;font-size:18px;font-weight:800;color:#111827;">
+          The Data Behind the Story
+        </h2>
+        {% for cid in chart_cids %}
+        <img src="cid:{{ cid }}" width="528" alt="Data chart"
+             style="width:100%;max-width:528px;display:block;border:1px solid #E5E7EB;border-radius:8px;margin-bottom:16px;">
+        {% endfor %}
+      </td>
+    </tr>
+    {% endif %}
+
+    <!-- ── CLOSING ──────────────────────────────────── -->
+    <tr>
+      <td style="background:#FFFFFF;padding:28px 36px 32px;">
+        <div style="height:1px;background:#E5E7EB;margin-bottom:24px;"></div>
+        <p style="margin:0 0 20px;font-size:14px;line-height:1.8;color:#374151;">
+          {{ copy.closing }}
+        </p>
+      </td>
+    </tr>
+
+    <!-- ── SOURCES ───────────────────────────────────── -->
+    {% if sources %}
+    <tr>
+      <td style="background:#F9FAFB;padding:20px 36px;border-top:1px solid #E5E7EB;">
+        <p style="margin:0 0 10px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9CA3AF;">
+          Sources
+        </p>
+        {% for source in sources %}
+        <p style="margin:0 0 4px;font-size:11px;color:#6B7280;word-break:break-all;">
+          {{ source }}
+        </p>
+        {% endfor %}
+      </td>
+    </tr>
+    {% endif %}
+
+    <!-- ── FOOTER ────────────────────────────────────── -->
+    <tr>
+      <td style="background:#1F2937;border-radius:0 0 12px 12px;padding:20px 32px;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="color:#9CA3AF;font-size:11px;line-height:1.6;">
+              You're receiving this because you subscribed to this newsletter.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+  <!-- /Main container -->
+
+</td></tr>
+</table>
+<!-- /Email wrapper -->
+
+</body>
+</html>
