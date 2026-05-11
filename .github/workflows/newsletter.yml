@@ -1,0 +1,43 @@
+name: Daily Newsletter
+
+on:
+  schedule:
+    - cron: '30 6 * * *'  # 12pm IST (6:30am UTC)
+  workflow_dispatch:        # allows manual trigger from GitHub
+
+jobs:
+  send-newsletter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install feedparser gspread google-auth python-dotenv requests
+
+      - name: Create credentials file
+        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > tools/credentials.json
+
+      - name: Create .env file
+        run: |
+          echo "GMAIL_ADDRESS=${{ secrets.GMAIL_ADDRESS }}" > .env
+          echo "GMAIL_APP_PASSWORD=${{ secrets.GMAIL_APP_PASSWORD }}" >> .env
+          echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> .env
+          echo "SUBSCRIBERS_SHEET_ID=${{ secrets.SUBSCRIBERS_SHEET_ID }}" >> .env
+          echo "GOOGLE_SERVICE_ACCOUNT_JSON=tools/credentials.json" >> .env
+          echo "SUBSCRIBERS_SHEET_NAME=Sheet1" >> .env
+
+      - name: Fetch news
+        run: python3 tools/research.py
+
+      - name: Write newsletter
+        run: python3 tools/write_newsletter.py
+
+      - name: Send emails
+        run: python3 tools/send_email.py
