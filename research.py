@@ -11,11 +11,22 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 RSS_FEEDS = [
+    # AI & Tech
     ("The Verge - AI", "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"),
     ("TechCrunch - AI", "https://techcrunch.com/category/artificial-intelligence/feed/"),
     ("MIT Tech Review", "https://www.technologyreview.com/feed/"),
     ("Ars Technica - AI", "https://feeds.arstechnica.com/arstechnica/index"),
     ("VentureBeat - AI", "https://venturebeat.com/category/ai/feed/"),
+
+    # Marketing
+    ("Marketing Week", "https://www.marketingweek.com/feed/"),
+    ("HubSpot Marketing", "https://blog.hubspot.com/marketing/rss.xml"),
+    ("Neil Patel", "https://neilpatel.com/blog/feed/"),
+
+    # Indian Politics
+    ("The Hindu - Politics", "https://www.thehindu.com/news/national/feeder/default.rss"),
+    ("NDTV - India", "https://feeds.feedburner.com/ndtvnews-india-news"),
+    ("Indian Express - Politics", "https://indianexpress.com/section/political-pulse/feed/"),
 ]
 
 MAX_ARTICLES = 10  # total articles to collect
