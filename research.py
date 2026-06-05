@@ -29,7 +29,7 @@ RSS_FEEDS = [
     ("Indian Express - Politics", "https://indianexpress.com/section/political-pulse/feed/"),
 ]
 
-MAX_ARTICLES = 10  # total articles to collect
+MAX_ARTICLES = 20  # total articles to collect
 
 
 def fetch_feed(name, url):
@@ -93,7 +93,7 @@ def main():
     Path(".tmp").mkdir(exist_ok=True)
     data = {
         "fetched_at": datetime.now(timezone.utc).isoformat(),
-        "topic": "AI & Tech News",
+        "topic": "topic": "AI, Tech, Marketing & Indian Politics",
         "articles": all_articles,
     }
     with open(".tmp/research.json", "w") as f:
