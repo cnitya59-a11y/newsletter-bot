@@ -11,7 +11,7 @@ load_dotenv()
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
-MODEL = "llama-3.1-8b-instant"
+MODEL = "llama-3.3-70b-versatile"
 
 if not GROQ_API_KEY:
     print("ERROR: GROQ_API_KEY not set in .env", file=sys.stderr)
